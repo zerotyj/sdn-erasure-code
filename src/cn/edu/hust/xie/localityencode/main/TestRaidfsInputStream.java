@@ -63,7 +63,7 @@ public class TestRaidfsInputStream {
     public static void main(String[] args) throws IOException {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
-        Path path = fs.makeQualified(new Path("text/part-m-00000"));
+        Path path = fs.makeQualified(new Path("text1G/part-m-00000"));
         System.out.println("Path " + path.toString());
         RaidfsInputStream input = new RaidfsInputStream(fs, path, 128 * 1024);
         input.setSimulate(true);

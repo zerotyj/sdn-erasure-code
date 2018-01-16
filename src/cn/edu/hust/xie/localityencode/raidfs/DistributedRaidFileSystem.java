@@ -32,6 +32,7 @@ import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.util.Progressable;
 
+import cn.edu.hust.tang.sdnnetwork.ECClientInputStream;
 /**
  *
  * @author padicao
@@ -139,7 +140,7 @@ public class DistributedRaidFileSystem extends FileSystem {
     @Override
     public FSDataInputStream open(Path path, int bufferSize) throws IOException {
         Path hdfsPath = toHdfsPath(path);
-        return new FSDataInputStream(new RaidfsInputStream(hdfs, hdfsPath, bufferSize));
+        return new FSDataInputStream(new ECClientInputStream(hdfs, hdfsPath, bufferSize));
     }
 
     @Override

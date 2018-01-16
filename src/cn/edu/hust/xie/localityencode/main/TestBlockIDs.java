@@ -30,7 +30,7 @@ public class TestBlockIDs {
     public static void main(String[] args) throws IOException {
         Configuration conf = new Configuration();
         DistributedFileSystem dfs = (DistributedFileSystem)FileSystem.get(conf);
-        Path p = dfs.makeQualified(new Path("text/part-m-00000"));
+        Path p = dfs.makeQualified(new Path("text1G/part-m-00000"));
         p = Path.getPathWithoutSchemeAndAuthority(p);
         long[] blockIDs = ExportUtils.getBlockIDs(dfs, p.toString(), 8 * dfs.getBlockSize(p));
     }

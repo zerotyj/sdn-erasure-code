@@ -228,17 +228,28 @@ public class RaidfsInputStream extends FSInputStream {
                 Arrays.fill(buffers[index], (byte)0x00);
                 return;
             }
-
-            int haveRead = ecInputs[index].read(buffers[index], 0, len);
-            LOG.info(String.format("%d read %d, %d", index, len, haveRead));
+	    
+            int off = 0;
+            while(off < len) {
+                int haveRead = ecInputs[index].read(buffers[index], off, len - off);
+                LOG.info(String.format("%d read %d, %d", index, len, haveRead));
+                if(haveRead < 0) {
+                    isRemain[index] = false;
+                    Arrays.fill(buffers[index], off, len, (byte)0x00);
+                    break;
+	        }
+                off = off + haveRead;
+            }
+            //int haveRead = ecInputs[index].read(buffers[index], 0, len);
+            //LOG.info(String.format("%d read %d, %d", index, len, haveRead));
             //for (int j = 0; j < 10; j++) {
             //   System.out.print((buffers[index][j] & 0xff) + " ");
             //}
             //System.out.println("");
-            if (haveRead < len) {
-                isRemain[index] = false;
-                Arrays.fill(buffers[index], haveRead, len, (byte) 0x00);
-            }
+            //if (haveRead < len) {
+            //    isRemain[index] = false;
+            //    Arrays.fill(buffers[index], haveRead, len, (byte) 0x00);
+            //}
         }
 
         private boolean doSeek(long pos) throws IOException {
@@ -357,7 +368,7 @@ public class RaidfsInputStream extends FSInputStream {
         this.bufferSize = bufferSize;
         this.degradedBlock = null;
         this.simulate = false;
-    }
+    }                    
 
     public void setSimulate(boolean s) {
         this.simulate = s;

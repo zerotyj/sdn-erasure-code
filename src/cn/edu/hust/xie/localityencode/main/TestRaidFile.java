@@ -29,7 +29,7 @@ public class TestRaidFile {
     public static void main(String[] args) throws IOException {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
-        FSDataInputStream input = fs.open(new Path("/raidfs/user/root/text/raid-final"));
+        FSDataInputStream input = fs.open(new Path("/raidfs/user/root/text1G/raid-final"));
         for(int i = 0; i < 24; i++) {
             input.seek(i * 128L  * 1024L * 1024L);
             System.out.println(String.format("%d %d", i, input.read()));
